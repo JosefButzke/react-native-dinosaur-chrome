@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Background, Bird} from './styles';
+import {Container} from './styles';
 
 import background from '../../assets/background-night.png';
 import bird from '../../assets/redbird-downflap.png';
-import {Animated, Dimensions, Easing} from 'react-native';
+import {Animated, Dimensions, Easing, View} from 'react-native';
 
-const {width} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const World = () => {
   const [position, setPosition] = useState(new Animated.Value(0));
-  const [top, setTop] = useState(new Animated.Value(300));
+  const [top, setTop] = useState(new Animated.Value(height - 50));
+  const [canJump, setCanJump] = useState(true);
 
   useEffect(() => {
     Animated.loop(
@@ -23,12 +24,24 @@ const World = () => {
   }, []);
 
   const handleJump = () => {
-    Animated.timing(top, {
-      toValue: 600,
-      duration: 2000,
-      easing: Easing.back(3),
-      useNativeDriver: true,
-    }).start();
+    setCanJump(false);
+    canJump &&
+      Animated.sequence([
+        Animated.timing(top, {
+          toValue: 500,
+          duration: 300,
+          easing: Easing.bezier(0.2, 1.1, 0.57, 0.8),
+          useNativeDriver: true,
+        }),
+        Animated.timing(top, {
+          toValue: height - 50,
+          duration: 500,
+          easing: Easing.ease,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        setCanJump(true);
+      });
   };
 
   return (
