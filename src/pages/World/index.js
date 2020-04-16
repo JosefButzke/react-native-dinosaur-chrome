@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Container} from './styles';
+import {Container, Points} from './styles';
 
 import background from '../../assets/background-night.png';
 import vinha from '../../assets/vinha.png';
@@ -17,6 +17,8 @@ const World = () => {
 
   const [jumping, setJumping] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+
+  const [points, setPoints] = useState(0);
 
   useEffect(() => {
     Animated.loop(
@@ -41,8 +43,12 @@ const World = () => {
   useEffect(() => {
     locationBox.removeAllListeners();
     locationBox.addListener(({value}) => {
-      if (value < 110 && value > 50 && !jumping) {
+      if (value < 110 && value > 40 && !jumping) {
         callGameOver();
+      }
+
+      if (value < 110 && value > 40 && jumping) {
+        setPoints(points + 1);
       }
     });
   }, [jumping]);
@@ -84,6 +90,7 @@ const World = () => {
       onPress={() => {
         !jumping && handleJump();
       }}>
+      <Points>{points}</Points>
       <Animated.Image
         source={vinha}
         style={{
