@@ -4,7 +4,8 @@ import {Container, Points} from './styles';
 import background from '../../assets/background-night.png';
 import vinha from '../../assets/vinha.png';
 import moto from '../../assets/moto.png';
-import {Animated, Dimensions, Easing} from 'react-native';
+import {Animated, Dimensions, Easing, View, Text, Button} from 'react-native';
+import Modal from 'react-native-modal';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -120,6 +121,17 @@ const World = () => {
           transform: [{translateY: top}],
         }}
       />
+      <Modal isVisible={gameOver} onBackdropPress={() => setGameOver(false)}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'white',
+          }}>
+          <Text style={{fontSize: 42}}>Game Over!</Text>
+        </View>
+      </Modal>
     </Container>
   );
 };
