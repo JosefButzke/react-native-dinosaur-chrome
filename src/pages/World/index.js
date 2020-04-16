@@ -121,11 +121,7 @@ const World = () => {
           transform: [{translateY: top}],
         }}
       />
-      <Modal
-        isVisible={gameOver}
-        onBackdropPress={() => {
-          setGameOver(false);
-        }}>
+      <Modal isVisible={gameOver} onBackdropPress={() => setGameOver(false)}>
         <View
           style={{
             flex: 1,
